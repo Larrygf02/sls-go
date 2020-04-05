@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"context"
 	"encoding/json"
+	"fmt"
 
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-lambda-go/lambda"
@@ -14,9 +15,11 @@ import (
 //
 // https://serverless.com/framework/docs/providers/aws/events/apigateway/#lambda-proxy-integration
 type Response events.APIGatewayProxyResponse
+type Request events.APIGatewayProxyRequest
 
 // Handler is our lambda handler invoked by the `lambda.Start` function call
-func Handler(ctx context.Context) (Response, error) {
+func Handler(ctx context.Context, request Request) (Response, error) {
+	fmt.Println("Recieved body", request.Body)
 	var buf bytes.Buffer
 
 	body, err := json.Marshal(map[string]interface{}{
